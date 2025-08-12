@@ -8,15 +8,13 @@ from pages.iframe_page import IframePage
 @pytest.fixture
 def driver():
     options = Options()
-    # Uncomment to run headless if needed
-    # options.add_argument("--headless")
-
-    with tempfile.TemporaryDirectory() as user_data_dir:
-        options.add_argument(f"--user-data-dir={user_data_dir}")
-        driver = webdriver.Chrome(options=options)
-        yield driver
-        driver.quit()
-    # TemporaryDirectory automatically cleans up after the context ends
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=options)
+    yield driver
+    driver.quit()
 
 def test_internal_button_click(driver):     #receives a Selenium driver fixture (usually from conftest.py)
     page = IframePage(driver)               #creates an IframePage object, passing the driver so the page object can control the browser
