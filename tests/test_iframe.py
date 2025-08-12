@@ -1,12 +1,20 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
+import tempfile
+import shutil
 from pages.iframe_page import IframePage
 
 @pytest.fixture
 def driver():
     options = Options()
+    # Uncomment to run headless if needed
+    # options.add_argument("--headless")
+
+    # Create a unique temp user data dir to avoid conflicts
+    user_data_dir = tempfile.mkdtemp()
+    options.add_argument(f"--user-data-dir={user_data_dir}")
+
     #options.add_argument("--headless")
     driver = webdriver.Chrome(options=options)
     yield driver
