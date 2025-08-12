@@ -35,16 +35,8 @@ jobs:
 
     - name: Install ChromeDriver
       run: |
-        CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
-        echo "Full Chrome version: $CHROME_VERSION"
-        CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
-        echo "Chrome major version: $CHROME_MAJOR_VERSION"
-        CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
-        echo "Matching ChromeDriver version: $CHROMEDRIVER_VERSION"
-        wget -N "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -P ~/
-        unzip -o ~/chromedriver_linux64.zip -d ~/
-        sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
-        sudo chmod +x /usr/local/bin/chromedriver
+        sudo apt update
+        sudo apt install -y google-chrome-stable
 
     - name: Run pytest with Allure results
       run: |
